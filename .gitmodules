@@ -1,0 +1,3 @@
+[submodule "UnityFolder/Assets/tools"]
+	path = UnityFolder/Assets/tools
+	url = https://github.com/anthonyromrell/ArtisanDream.Tools.git
