@@ -1,0 +1,23 @@
+proc BuildStairCase(int $steps, int $stepwidth, int $steplength, int $height, int $stepHeight, float $rotationPerStep)
+{
+    for ($i = 0; $i < $steps; $i++)
+    {
+        string $step[] = `polyCube -w $stepwidth -h $stepHeight -d $steplength` ;
+        float $angle = deg_to_rad($i * $rotationPerStep);
+
+        float $cylinderRadius = $stepwidth * 0.2;
+        float $radius = $cylinderRadius + $steplength * 0.5;
+        float $x = $radius * sin($angle);
+        float $z = $radius * cos($angle);
+
+        move -r $x ($i * $stepHeight) $z $step[0];
+        rotate -r 0 ($i * $rotationPerStep) 0 $step[0];
+    }
+
+    int $totalHeight = $steps * $stepHeight;
+
+    string $pole[] = `polyCylinder -r ($stepwidth * 0.2) -h $totalHeight` ;
+    move -r 0 ($totalHeight * 0.5) 0 $pole[0];
+}
+
+BuildStairCase(10, 2, 5, 1, 2, 36);
