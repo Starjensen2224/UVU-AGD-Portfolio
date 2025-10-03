@@ -1,0 +1,72 @@
+//function for each math method and operation
+//separrate function for each operation
+//sum, diff, mult, div, mean, median;
+
+
+global proc float math_sum(float $input[])
+{
+    float $result = 0;
+    for ($i = 0; $i < size($input); $i++)
+    {
+        $result += $input[$i];
+    }
+    return $result;
+}
+
+global proc float math_diff(float $input[])
+{
+    float $result = 0;
+    for ($i = 0; $i < size($input); $i++)
+    {
+        $result -= $input[$i];
+    }
+    return $result;
+}
+
+global proc float math_mean(float $input[])
+{
+    float $sum = math_sum($input);
+    return $sum / size($input);
+}
+
+global proc float math_median(float $input[])
+{
+    int $size = size($input)
+    float $sorted[] = `sort $input`;
+
+    if ($size % 2 == 0)
+    {
+        return ($sorted[$size / 2 - 1] + $sorted[$size / 2]) / 2;
+    }
+    else
+    {
+        return $sorted[floor($size / 2)];
+    }
+}
+
+global proc Calculator(string $funct, float $array[])
+{
+    if ($funct == "sum")
+    {
+        print("sum:" + math_sum($array));
+        return math_sum($array);
+    }
+    else if ($funct == "diff")
+    {
+       print("diff:" + math_diff($array));
+        return math_diff($array);
+    }
+    else if ($funct == "mean")
+    {
+        return math_mean($array);
+    }
+    else if ($funct == "median")
+    {
+        return math_median($array);
+    }
+    else
+    {
+        error("Function is Unknown " + $funct);
+        return 0;
+    }
+}
