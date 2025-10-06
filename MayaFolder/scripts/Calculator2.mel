@@ -1,0 +1,147 @@
+// Sum function
+global proc float math_sum(float $input[])
+{
+    float $result = 0;
+    for ($i = 0; $i < size($input); $i++)
+    {
+        $result += $input[$i];
+    }
+    return $result;
+}
+
+// Difference function
+global proc float math_diff(float $input[])
+{
+    float $result = $input[0];
+    for ($i = 1; $i < size($input); $i++)
+    {
+        $result -= $input[$i];
+    }
+    return $result;
+}
+
+// Multiplication function
+global proc float math_mult(float $input[])
+{
+    float $result = 1;
+    for ($i = 0; $i < size($input); $i++)
+    {
+        $result *= $input[$i];
+    }
+    return $result;
+}
+
+// Division function
+global proc float math_div(float $input[])
+{
+    float $result = $input[0];
+    for ($i = 1; $i < size($input); $i++)
+    {
+        if ($input[$i] == 0)
+        {
+            error("Division by zero not allowed.");
+            return 0;
+        }
+        $result /= $input[$i];
+    }
+    return $result;
+}
+
+// Mean function
+global proc float math_mean(float $input[])
+{
+    float $sum = math_sum($input);
+    return $sum / size($input);
+}
+
+// Median function
+global proc float math_median(float $input[])
+{
+    int $size = size($input);
+
+    // Convert float[] to string[]
+    string $stringArr[];
+    for ($i = 0; $i < $size; $i++)
+    {
+        $stringArr[$i] = $input[$i];
+    }
+
+    // Sort as string[]
+    string $sortedStr[] = `sort $stringArr`;
+
+    // Convert back to float[]
+    float $sorted[];
+    for ($i = 0; $i < $size; $i++)
+    {
+        $sorted[$i] = (float)$sortedStr[$i];
+    }
+
+    // Median logic
+    if ($size % 2 == 0)
+    {
+        return ($sorted[$size/2 - 1] + $sorted[$size/2]) / 2;
+    }
+    else
+    {
+        return $sorted[($size-1)/2];
+    }
+}
+
+// Calculator function
+global proc float Calculator(string $funct, float $array[])
+{
+    float $result;
+
+    if ($funct == "sum")
+    {
+        $result = math_sum($array);
+        print("The sum of " + stringArrayToString($array, ", ") + " is " + $result + "\n");
+    }
+    else if ($funct == "diff")
+    {
+        $result = math_diff($array);
+        print("The difference of " + stringArrayToString($array, ", ") + " is " + $result + "\n");
+    }
+    else if ($funct == "mult")
+    {
+        $result = math_mult($array);
+        print("The product of " + stringArrayToString($array, ", ") + " is " + $result + "\n");
+    }
+    else if ($funct == "div")
+    {
+        $result = math_div($array);
+        print("The division of " + stringArrayToString($array, ", ") + " is " + $result + "\n");
+    }
+    else if ($funct == "mean")
+    {
+        $result = math_mean($array);
+        print("The mean of " + stringArrayToString($array, ", ") + " is " + $result + "\n");
+    }
+    else if ($funct == "median")
+    {
+        $result = math_median($array);
+        print("The median of " + stringArrayToString($array, ", ") + " is " + $result + "\n");
+    }
+    else
+    {
+        error("Unknown function: " + $funct);
+        return 0;
+    }
+
+    return $result;
+}
+
+// Helper function to print array nicely
+global proc string stringArrayToString(float $arr[], string $sep)
+{
+    string $out = "";
+    for ($i = 0; $i < size($arr); $i++)
+    {
+        $out += (string)$arr[$i];
+        if ($i < size($arr) - 1)
+        {
+            $out += $sep + " ";
+        }
+    }
+    return $out;
+}
