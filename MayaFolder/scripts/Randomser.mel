@@ -1,0 +1,61 @@
+//Idea here is to create copies of the original seleced then move them using an Randomly.
+
+global proc duplicateAndScatter(int $numCopies, float $minX, float $maxX, float $minY, float $maxY, float $minZ, float $maxZ)
+{
+    string $selected[] = `ls -sl`;
+    if (size($selected) == 0) {
+        warning "No objects selected.";
+        return;
+    }
+
+    for ($i = 0; $i < $numCopies; $i++) {
+        for ($obj in $selected) {
+            string $dup[] = `duplicate $obj`;
+            float $randX = rand($minX, $maxX);
+            float $randY = rand($minY, $maxY);
+            float $randZ = rand($minZ, $maxZ);
+            move $randX $randY $randZ $dup[0];
+        }
+    }
+}
+
+global proc scatterToolUI()
+{
+    if (`window -exists scatterWin`) {
+        deleteUI scatterWin;
+    }
+
+    window scatterWin;
+    columnLayout -adjustableColumn true;
+
+    intFieldGrp -label "Number of Duplicates" -value1 10 numCopiesField;
+    floatFieldGrp -label "Min X / Max X" -numberOfFields 2 -value1 -10 -value2 10 xRangeField;
+    floatFieldGrp -label "Min Y / Max Y" -numberOfFields 2 -value1 0 -value2 10 yRangeField;
+    floatFieldGrp -label "Min Z / Max Z" -numberOfFields 2 -value1 -10 -value2 10 zRangeField;
+
+    button -label "Duplicate and Scatter" -command "runScatter()";
+
+    showWindow scatterWin;
+}
+
+global proc runScatter()
+{
+    int $numCopies = `intFieldGrp -q -value1 numCopiesField`;
+    float $minX = `floatFieldGrp -q -value1 xRangeField`;
+    float $maxX = `floatFieldGrp -q -value2 xRangeField`;
+    float $minY = `floatFieldGrp -q -value1 yRangeField`;
+    float $maxY = `floatFieldGrp -q -value2 yRangeField`;
+    float $minZ = `floatFieldGrp -q -value1 zRangeField`;
+    float $maxZ = `floatFieldGrp -q -value2 zRangeField`;
+
+    duplicateAndScatter($numCopies, $minX, $maxX, $minY, $maxY, $minZ, $maxZ);
+}
+// Test
+CreatePolygonCube;
+
+CreatePolygonSphere;
+move -r 0 5 0;
+
+select -r pCube1 pShpere1;
+
+scatterToolUI();
