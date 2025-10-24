@@ -1,0 +1,64 @@
+// Declaring a simple mel Calulator 
+global proc simpleCalculator() {
+    if (`window -exists calcWin`) {
+        deleteUI calcWin;
+    }
+
+    // Create the main window
+    window -title "MEL Calculator" calcWin;
+    columnLayout -adjustableColumn true;
+
+    floatField -value 3 firstNum;
+    floatField -value 5 secondNum;
+
+
+    textField -editable false -text "Result" resultField;
+
+    rowLayout -numberOfColumns 4 -columnWidth4 60 60 60 60;
+        button -label "+" -command "doCalc(\"+\")";
+        button -label "-" -command "doCalc(\"-\")";
+        button -label "*" -command "doCalc(\"*\")";
+        button -label "/" -command "doCalc(\"/\")";
+    setParent..;
+
+    button -label "Clear" -command "clearFields()";
+
+    showWindow calcWin;
+}
+// Function to perform calculations
+global proc doCalc(string $operation) {
+    float $a = `floatField -query -value firstNum`;
+    float $b = `floatField -query -value secondNum`;
+    float $result;
+
+    switch ($operation) {
+        case "+":
+            $result = $a + $b;
+            break;
+        case "-":
+            $result = $a - $b;
+            break;
+        case "*":
+            $result = $a * $b;
+            break;
+        case "/":
+            if ($b != 0) {
+                $result = $a / $b;
+            } else {
+                textField -edit -text "Error: Divide by zero" resultField;
+                return;
+            }
+            break;
+    }
+
+    textField -edit -text ("Result: " + $result) resultField;
+}
+
+global proc clearFields() {
+    floatField -edit -value 0 firstNum;
+    floatField -edit -value 0 secondNum;
+    textField -edit -text "Result will appear here" resultField;
+}
+
+// Run the calculator
+simpleCalculator();
