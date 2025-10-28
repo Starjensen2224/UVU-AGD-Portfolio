@@ -145,3 +145,36 @@ global proc string stringArrayToString(float $arr[], string $sep)
     }
     return $out;
 }
+
+
+//math functions
+//ui and buttons
+//intermediary scripts/ prints functions
+
+global proc Calc() 
+{
+    string $calcwindow = 'window -title "Calculator" -widthHeight 300 200';
+    gridLayout -numberOfColumns 2 -cellWidthHeight 150 50;
+    text -label "Function";
+    textField -text "add";
+    text -label "Numbers:";
+    textField -text "1,2,3" 
+    showWindow $calcwindow;
+    rowLayout; -numberOfColumns 2 -columnWidth2 150 150;
+    button -label "Calculate" -command "CalculateResult"
+    text -label "Result:";
+}
+
+global proc CalculateResult(string $op, string $args) 
+{
+    string $funct = `textField -q -text "function"`;
+    string $numbers = `textField -q -text "numbers"`;
+    string $numArray[] = stringToStringArray($numbers, ",");
+    float $floatArray[];
+    for ($i = 0; $i < size($numArray); $i++) 
+    {
+        $floatArray[$i] = (float)$numArray[$i];
+    }
+    float $result = Calculator($funct, $floatArray);
+    print("Result: " + $result + "\n");
+}
