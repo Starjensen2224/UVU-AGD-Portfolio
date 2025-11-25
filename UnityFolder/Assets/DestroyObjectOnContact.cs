@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class DestroyOnContact : MonoBehaviour
 {
-    void OnControllerColliderHit(ControllerColliderHit hit)
+    public float holdTime = 0.1f;
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (hit.controller != null)
-        {
-            Destroy(gameObject);
-        }
+        StartCoroutine(DestroyAfterDelay());
+    }
+
+    private IEnumerator DestroyAfterDelay()
+    {
+        yield return new WaitForSeconds(holdTime);
+        Destroy(gameObject);
     }
 }
