@@ -1,6 +1,6 @@
 //Maya ASCII 2027 scene
 //Name: Tyson_Jensen_PDC_Cement_Barrier_V001.ma
-//Last modified: Tue, Sep 15, 2026 12:09:17 PM
+//Last modified: Thu, Sep 17, 2026 02:09:39 PM
 //Codeset: 1252
 requires maya "2027";
 requires -nodeType "UsdDefaultSettings" -dataType "pxrUsdStageData" "mayaUsdPlugin" "0.37.0";
@@ -12,12 +12,12 @@ fileInfo "product" "Maya 2027";
 fileInfo "version" "2027";
 fileInfo "cutIdentifier" "202607171511-52c21617ee";
 fileInfo "osv" "Windows 11 Home v2009 (Build: 26200)";
-fileInfo "UUID" "03E7129C-4CFF-BC93-C995-EEB82E5B09AE";
+fileInfo "UUID" "E1492E6D-499B-001F-E130-2EB2BB116DC6";
 createNode transform -s -n "persp";
 	rename -uid "CF485E80-4B45-97BF-FCE7-63B0ACE35BEC";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 4.5641751501768049 2.0934429206582332 3.0910853061891728 ;
-	setAttr ".r" -type "double3" 698.66164725659792 776.1999999996217 2.8586911282517569e-15 ;
+	setAttr ".t" -type "double3" -4.4654184693253587 2.3170865767754165 2.7893894903946581 ;
+	setAttr ".r" -type "double3" 696.26164725658145 1020.5999999995469 -3.1240627806458905e-15 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "9C5245C1-4FCC-317E-0B8E-808FF80128D6";
 	setAttr -k off ".v" no;
